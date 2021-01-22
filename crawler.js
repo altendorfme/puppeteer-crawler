@@ -9,8 +9,13 @@ module.exports = function (url) {
       });
 
       const page = await browser.newPage();
+      await page.setRequestInterception(true);
+      page.on('request', (request) => {
+        if (request.resourceType() === 'image') request.abort();
+        else request.continue();
+      });
       await page.goto(url, {
-        waitUntil: "networkidle0",
+        waitUntil: ['load', 'networkidle0', 'domcontentloaded'],
       });
 
       const data = await page.evaluate(
