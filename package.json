@@ -1,23 +1,23 @@
 {
-  "name": "vacinacao-covid19-puppeteer",
+  "name": "puppeteer-crawler",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/altendorfme/vacinacao-covid19-puppeteer.git"
+    "url": "git+https://github.com/altendorfme/puppeteer-crawler.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/altendorfme/vacinacao-covid19-puppeteer/issues"
+    "url": "https://github.com/altendorfme/puppeteer-crawler/issues"
   },
-  "homepage": "https://github.com/altendorfme/vacinacao-covid19-puppeteer#readme",
+  "homepage": "https://github.com/altendorfme/puppeteer-crawler#readme",
   "dependencies": {
     "express": "^4.17.1",
     "puppeteer": "^5.5.0"

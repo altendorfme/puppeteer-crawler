@@ -9,6 +9,8 @@ app.get("/crawler", (req, res) => {
   const url = req.query.url;
   (async () => {
     const buffer = await crawler(url);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.setHeader('Content-Type', 'multipart/form-data; boundary=something')
     res.send(buffer);
   })();
 });
