@@ -10,8 +10,10 @@ module.exports = function (url) {
 
       const page = await browser.newPage();
       await page.goto(url, {
-        waitUntil: ['load', 'networkidle0', 'domcontentloaded'],
+        waitUntil: ['load', 'domcontentloaded'],
       });
+
+      await page.waitForTimeout(5000);
 
       const data = await page.evaluate(
         () => document.querySelector("html").outerHTML
