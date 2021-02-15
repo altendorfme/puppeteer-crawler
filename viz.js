@@ -17,17 +17,16 @@ module.exports = function (state) {
 
       await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
       await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
-      
-      await page.waitForSelector('.ng-scope:nth-child(2) > .qv-object-wrapper > .qv-object > .qv-inner-object > .qv-object-header > .qv-object-title > .qv-object-search');
-      await page.click('.ng-scope:nth-child(2) > .qv-object-wrapper > .qv-object > .qv-inner-object > .qv-object-header > .qv-object-title > .qv-object-search');
+	  
+	  await page.waitForSelector(".filter-container [x-dir-text='UF']");
+	  await page.click(".filter-container [x-dir-text='UF']");
+	  
+	  await page.waitForSelector("div.qv-listbox-search > div > input");
+	  await page.type("div.qv-listbox-search > div > input", state, {delay: 20});
+	  
+	  await page.keyboard.press('Enter');
 
-      await page.type('div.qv-listbox-search > div > input', state, {delay: 20});
-
-      await page.waitForTimeout(1000);
-
-      await page.keyboard.press('Enter');
-    
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
       
       const data = await page.evaluate(
         () => document.querySelector("html").outerHTML
