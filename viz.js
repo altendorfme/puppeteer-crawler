@@ -4,7 +4,7 @@ module.exports = function (url) {
   return new Promise((resolve, reject) => {
     (async () => {
       const browser = await puppeteer.launch({
-        //headless: true, // debug only
+        headless: true, // debug only
         args: ["--no-sandbox"],
       });
 
@@ -13,7 +13,7 @@ module.exports = function (url) {
       await page.setViewport({width: 1366, height: 768});
     
       await page.goto(url, {
-        waitUntil: ['load', 'domcontentloaded','networkidle0'],
+        waitUntil: ['load', 'domcontentloaded','networkidle0','networkidle2'],
       });
 
       const numberPattern = /\d+/g;
