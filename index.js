@@ -21,18 +21,16 @@ app.get("/am", (req, res) => {
   const url = req.query.url;
   (async () => {
     const buffer = await am(url);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.setHeader('Content-Type', 'multipart/form-data; boundary=something')
+    res.setHeader('Content-Type', 'application/json; charset=utf-8')
     res.send(buffer);
   })();
 });
 
 app.get("/viz", (req, res) => {
-  const state = req.query.state;
+  const url = req.query.url;
   (async () => {
-    const buffer = await viz(state);
-    res.setHeader('Content-Type', 'text/html; charset=utf-8')
-    res.setHeader('Content-Type', 'multipart/form-data; boundary=something')
+    const buffer = await viz(url);
+    res.setHeader('Content-Type', 'application/json; charset=utf-8')
     res.send(buffer);
   })();
 });
