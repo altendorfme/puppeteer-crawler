@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs");
 const app = express();
 const port = process.env.PORT || 3131;
 const crawler = require("./crawler");
@@ -28,19 +27,12 @@ app.get("/am", (req, res) => {
 });
 
 app.get("/viz", (req, res) => {
-  const url = req.query.url;
+  const state = req.query.state;
   (async () => {
-    const buffer = await viz(url);
+    const buffer = await viz(state);
     res.setHeader('Content-Type', 'application/json; charset=utf-8')
     res.send(buffer);
   })();
-});
-
-app.get('/ms', function(req, res){
-  var file = __dirname + '/viz.json';
-
-  var filestream = fs.createReadStream(file);
-  filestream.pipe(res);
 });
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
