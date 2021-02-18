@@ -23,6 +23,8 @@ module.exports = function (url) {
         console.log('State: '+state);
         const total = [];
 
+        await page.waitForTimeout(1000);
+
         await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
         await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
 
@@ -33,7 +35,7 @@ module.exports = function (url) {
         await page.type("div.qv-listbox-search > div > input", state, { delay: 20 });
 
         await page.keyboard.press('Enter');
-        await page.waitForTimeout(1500);
+        await page.waitForTimeout(2000);
 
         const data1 = await page.evaluate(
           () => document.querySelector('#KPI-12 .qv-object-content-container .value-wrapper span').innerHTML
@@ -47,7 +49,7 @@ module.exports = function (url) {
         await page.evaluate(
           () => document.querySelector('#clearselections').click()
         );
-        await page.waitForTimeout(1500);
+        await page.waitForTimeout(2000);
 
         console.log('Dose 1: '+dose_1);
         console.log('Dose 2: '+dose_2);
