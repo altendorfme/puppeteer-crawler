@@ -32,9 +32,11 @@ const connection = mysql.createConnection({
 
     await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
     await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
-
+    await page.waitForNavigation();
+    
     await page.waitForSelector(".filter-container [x-dir-text='UF']");
     await page.click(".filter-container [x-dir-text='UF']");
+    await page.waitForNavigation();
 
     await page.waitForSelector("div.qv-listbox-search > div > input");
     await page.type("div.qv-listbox-search > div > input", state, { delay: 20 });
