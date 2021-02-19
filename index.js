@@ -3,7 +3,6 @@ const app = express();
 const port = process.env.PORT || 3131;
 const crawler = require("./crawler");
 const am = require("./am");
-const viz = require("./viz");
 
 app.get("/", (req, res) => res.status(200).json({ status: "ok" }));
 
