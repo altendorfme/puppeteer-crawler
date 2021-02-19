@@ -28,6 +28,7 @@ const connection = mysql.createConnection({
 
   async function parseStates(state){  
     console.log('State: '+state);
+    await page.waitForTimeout(2000);
 
     await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
     await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
