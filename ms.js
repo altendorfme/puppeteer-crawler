@@ -28,15 +28,15 @@ const connection = mysql.createConnection({
 
   async function parseStates(state){  
     console.log('State: '+state);
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1500);
 
     await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
     await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
-    await page.waitForNavigation();
-    
+    await page.waitForTimeout(1500);
+
     await page.waitForSelector(".filter-container [x-dir-text='UF']");
     await page.click(".filter-container [x-dir-text='UF']");
-    await page.waitForNavigation();
+    await page.waitForTimeout(1500);
 
     await page.waitForSelector("div.qv-listbox-search > div > input");
     await page.type("div.qv-listbox-search > div > input", state, { delay: 20 });
@@ -56,7 +56,7 @@ const connection = mysql.createConnection({
     await page.evaluate(
       () => document.querySelector('#clearselections').click()
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1500);
 
     console.log('Dose 1: '+dose_1);
     console.log('Dose 2: '+dose_2);
