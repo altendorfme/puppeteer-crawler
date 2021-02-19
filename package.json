@@ -20,6 +20,7 @@
   "homepage": "https://github.com/altendorfme/puppeteer-crawler#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "puppeteer": "^7.0.4"
   }
 }

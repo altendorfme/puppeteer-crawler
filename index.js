@@ -26,13 +26,4 @@ app.get("/am", (req, res) => {
   })();
 });
 
-app.get("/viz", (req, res) => {
-  const state = req.query.state;
-  (async () => {
-    const buffer = await viz(state);
-    res.setHeader('Content-Type', 'application/json; charset=utf-8')
-    res.send(buffer);
-  })();
-});
-
 app.listen(port, () => console.log(`app listening on port ${port}!`));
