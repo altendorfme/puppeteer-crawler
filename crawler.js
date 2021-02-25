@@ -13,7 +13,7 @@ module.exports = function (url) {
         waitUntil: ['load', 'domcontentloaded'],
       });
 
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(7000);
 
       const data = await page.evaluate(
         () => document.querySelector("html").outerHTML
