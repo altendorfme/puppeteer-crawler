@@ -36,13 +36,13 @@ const connection = mysql.createConnection({
 
     await page.waitForSelector(".filter-container [x-dir-text='UF']");
     await page.click(".filter-container [x-dir-text='UF']");
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2500);
 
     await page.waitForSelector("div.qv-listbox-search > div > input");
     await page.type("div.qv-listbox-search > div > input", state, { delay: 20 });
 
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(5000);
 
     const data1 = await page.evaluate(
       () => document.querySelector('#KPI-12 .qv-object-content-container .value-wrapper span').innerHTML
@@ -56,7 +56,7 @@ const connection = mysql.createConnection({
     await page.evaluate(
       () => document.querySelector('#clearselections').click()
     );
-    await page.waitForTimeout(4000);
+    await page.waitForTimeout(5000);
 
     console.log('Dose 1: '+dose_1);
     console.log('Dose 2: '+dose_2);
