@@ -58,7 +58,7 @@ const connection = mysql.createConnection({
 
     const select = "SELECT `doses_1`,`doses_2` FROM `ms` WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1";
     connection.query(select, function (err, result) {
-      if( (doses_1 < (result[0].doses_1 * 2)) && (doses_2 < (result[0].doses_2 * 2)) ) {
+      if( (doses_1 < (result[0].doses_1 * 2)) || (doses_2 < (result[0].doses_2 * 2)) ) {
         if (result.length > 0) {
           const update = "UPDATE `ms` SET `doses_1` = "+doses_1+", `doses_2` = "+doses_2+", `last_update` = now() WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1;";
           connection.query(update, function (err, result) {
