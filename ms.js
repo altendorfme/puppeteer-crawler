@@ -47,30 +47,30 @@ const connection = mysql.createConnection({
     const data1 = await page.evaluate(
       () => document.querySelector('#KPI-12 .qv-object-content-container .value-wrapper span').innerHTML
     );
-    const dose_1 = data1.match(numberPattern).join('');
+    const doses_1 = data1.match(numberPattern).join('');
     const data2 = await page.evaluate(
       () => document.querySelector('#KPI-13 .qv-object-content-container .value-wrapper span').innerHTML
     );
-    const dose_2 = data2.match(numberPattern).join('');
+    const doses_2 = data2.match(numberPattern).join('');
 
     await page.evaluate(
       () => document.querySelector('#clearselections').click()
     );
     await page.waitForTimeout(3000);
 
-    console.log('Dose 1: '+dose_1);
-    console.log('Dose 2: '+dose_2);
+    console.log('Dose 1: '+doses_1);
+    console.log('Dose 2: '+doses_2);
 
     const select = "SELECT `doses_1`,`doses_2` FROM `ms` WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1";
     connection.query(select, function (err, result) {
       if( (doses_1 < (result[0].doses_1 * 2)) && (doses_2 < (result[0].doses_2 * 2)) ) {
         if (result.length > 0) {
-          const update = "UPDATE `ms` SET `doses_1` = "+dose_1+", `doses_2` = "+dose_2+", `last_update` = now() WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1;";
+          const update = "UPDATE `ms` SET `doses_1` = "+doses_1+", `doses_2` = "+doses_2+", `last_update` = now() WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1;";
           connection.query(update, function (err, result) {
             console.log("1 record updated, State: " + state);
           });
         } else {
-          const insert = "INSERT INTO `ms` ( `iso_code`, `doses_1`, `doses_2`, `last_update`) VALUES ( '"+state.toLowerCase()+"', "+dose_1+", "+dose_2+", now() );";
+          const insert = "INSERT INTO `ms` ( `iso_code`, `doses_1`, `doses_2`, `last_update`) VALUES ( '"+state.toLowerCase()+"', "+doses_1+", "+doses_2+", now() );";
           connection.query(insert, function (err, result) {
             console.log("1 record inserted, State: " + state);
           });
