@@ -28,21 +28,21 @@ const connection = mysql.createConnection({
 
   async function parseStates(state){  
     console.log('State: '+state);
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
     await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2000);
 
     await page.waitForSelector(".filter-container [x-dir-text='UF']");
     await page.click(".filter-container [x-dir-text='UF']");
-    await page.waitForTimeout(1500);
+    await page.waitForTimeout(2500);
 
     await page.waitForSelector("div.qv-listbox-search > div > input");
     await page.type("div.qv-listbox-search > div > input", state, { delay: 20 });
 
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(4000);
 
     const data1 = await page.evaluate(
       () => document.querySelector('#KPI-12 .qv-object-content-container .value-wrapper span').innerHTML
@@ -52,11 +52,6 @@ const connection = mysql.createConnection({
       () => document.querySelector('#KPI-13 .qv-object-content-container .value-wrapper span').innerHTML
     );
     const doses_2 = data2.match(numberPattern).join('');
-
-    await page.evaluate(
-      () => document.querySelector('#clearselections').click()
-    );
-    await page.waitForTimeout(3000);
 
     console.log('Dose 1: '+doses_1);
     console.log('Dose 2: '+doses_2);
