@@ -15,9 +15,9 @@ const connection = mysql.createConnection({
     //headless: true, // debug only
     args: ["--no-sandbox"],
   });
-  
-  await page.setCacheEnabled(false);
+
   const page = await browser.newPage();
+  await page.setCacheEnabled(false);
 
   await page.setViewport({width: 1366, height: 768});
 
