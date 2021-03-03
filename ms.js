@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 
   async function parseStates(state){  
     const browser = await puppeteer.launch({
-      headless: false, // debug only
+      //headless: false, // debug only
       args: ["--no-sandbox"],
     });
 
