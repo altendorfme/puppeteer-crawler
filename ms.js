@@ -15,7 +15,8 @@ const connection = mysql.createConnection({
     //headless: true, // debug only
     args: ["--no-sandbox"],
   });
-
+  
+  await page.setCacheEnabled(false);
   const page = await browser.newPage();
 
   await page.setViewport({width: 1366, height: 768});
@@ -55,6 +56,11 @@ const connection = mysql.createConnection({
       () => document.querySelector('#KPI-13 .qv-object-content-container .value-wrapper span').innerHTML
     );
     const doses_2 = data2.match(numberPattern).join('');
+
+    await page.evaluate(
+      () => document.querySelector('#clearselections').click()
+    );
+    await page.waitForTimeout(2000);
 
     console.log('Dose 1: '+doses_1);
     console.log('Dose 2: '+doses_2);
