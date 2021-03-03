@@ -59,10 +59,12 @@ const connection = mysql.createConnection({
     const select = "SELECT `doses_1`,`doses_2` FROM `ms` WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1";
     connection.query(select, function (err, result) {
       if ( (doses_1  === '') || (doses_2  === '') ) {
-        const drop = "DELETE FROM `ms` WHERE `iso_code` = '"+state+"'";
-        connection.query(drop, function (err, result) {
-          console.log("1 record deleted, State: " + state);
-        });
+        if (result.length > 0) {
+          const drop = "DELETE FROM `ms` WHERE `iso_code` = '"+state+"'";
+          connection.query(drop, function (err, result) {
+            console.log("1 record deleted, State: " + state);
+          });
+        }
       } else {
         if( (doses_1 < ((result[0].doses_1*0.2) + result[0].doses_1)) || (doses_2 < ((result[0].doses_2*0.2) + result[0].doses_2)) ) {
           if (result.length > 0) {
