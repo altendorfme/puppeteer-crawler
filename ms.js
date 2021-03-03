@@ -28,6 +28,7 @@ const connection = mysql.createConnection({
 
   async function parseStates(state){  
     console.log('State: '+state);
+
     await page.waitForTimeout(2000);
 
     await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
@@ -59,27 +60,29 @@ const connection = mysql.createConnection({
     const select = "SELECT `doses_1`,`doses_2` FROM `ms` WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1";
     connection.query(select, function (err, result) {
       if ( (doses_1  === '') || (doses_2  === '') ) {
-        if (result.length > 0) {
+        console.log('Doses empty');
+        if (result.length == 0) {
           const drop = "DELETE FROM `ms` WHERE `iso_code` = '"+state+"'";
           connection.query(drop, function (err, result) {
             console.log("1 record deleted, State: " + state);
           });
         }
       } else {
-        if( (doses_1 < ((result[0].doses_1*0.2) + result[0].doses_1)) || (doses_2 < ((result[0].doses_2*0.2) + result[0].doses_2)) ) {
-          if (result.length > 0) {
+        console.log('Doses not empty');
+        if (result.length == 0) {
+          const insert = "INSERT INTO `ms` ( `iso_code`, `doses_1`, `doses_2`, `last_update`) VALUES ( '"+state.toLowerCase()+"', "+doses_1+", "+doses_2+", now() );";
+          connection.query(insert, function (err, result) {
+            console.log("1 record inserted, State: " + state);
+          });
+        } else {
+          if( (doses_1 < ((result[0].doses_1 * 0.2) + result[0].doses_1)) || (doses_2 < ((result[0].doses_2 * 0.2) + result[0].doses_2)) ) {
             const update = "UPDATE `ms` SET `doses_1` = "+doses_1+", `doses_2` = "+doses_2+", `last_update` = now() WHERE `iso_code` = '"+state.toLowerCase()+"' LIMIT 1;";
             connection.query(update, function (err, result) {
               console.log("1 record updated, State: " + state);
             });
           } else {
-            const insert = "INSERT INTO `ms` ( `iso_code`, `doses_1`, `doses_2`, `last_update`) VALUES ( '"+state.toLowerCase()+"', "+doses_1+", "+doses_2+", now() );";
-            connection.query(insert, function (err, result) {
-              console.log("1 record inserted, State: " + state);
-            });
+            console.log("Invalid doses range (20%), State: " + state);
           }
-        } else {
-          console.log("Invalid doses range (20%), State: " + state);
         }
       }
     });
