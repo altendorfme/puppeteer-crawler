@@ -11,42 +11,39 @@ const connection = mysql.createConnection({
 });
 
 (async () => {
-  const browser = await puppeteer.launch({
-    //headless: true, // debug only
-    args: ["--no-sandbox"],
-  });
-
-  const page = await browser.newPage();
-  await page.setCacheEnabled(false);
-
-  await page.setViewport({width: 1366, height: 768});
-
-  await page.goto('https://viz.saude.gov.br/extensions/DEMAS_C19Vacina/DEMAS_C19Vacina.html', {
-    waitUntil: ['load', 'domcontentloaded','networkidle0'],
-  });
-
   const numberPattern = /\d+/g;
 
   async function parseStates(state){  
-    console.log('State: '+state);
+    const browser = await puppeteer.launch({
+      headless: false, // debug only
+      args: ["--no-sandbox"],
+    });
 
-    await page.waitForTimeout(2000);
-
+    const page = await browser.newPage();
+    await page.setCacheEnabled(false);
+  
+    await page.setViewport({width: 1366, height: 768});
+  
+    await page.goto('https://viz.saude.gov.br/extensions/DEMAS_C19Vacina/DEMAS_C19Vacina.html', {
+      waitUntil: ['load', 'domcontentloaded','networkidle0'],
+    });
+  
     await page.waitForSelector('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
     await page.click('.paper-header .filter-drawer-toggle:nth-child(4) > #icon');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1500);
+
+    console.log('State: '+state);
 
     await page.waitForSelector(".filter-container [x-dir-text='UF']");
     await page.click(".filter-container [x-dir-text='UF']");
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(1500);
 
     await page.waitForSelector("div.qv-listbox-search > div > input");
     await page.type("div.qv-listbox-search > div > input", state, { delay: 20 });
-
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500);
 
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(3500);
 
     const data1 = await page.evaluate(
       () => document.querySelector('#KPI-12 .qv-object-content-container .value-wrapper span').innerHTML
@@ -57,10 +54,7 @@ const connection = mysql.createConnection({
     );
     const doses_2 = data2.match(numberPattern).join('');
 
-    await page.evaluate(
-      () => document.querySelector('#clearselections').click()
-    );
-    await page.waitForTimeout(2000);
+    await browser.close();
 
     console.log('Dose 1: '+doses_1);
     console.log('Dose 2: '+doses_2);
@@ -94,7 +88,6 @@ const connection = mysql.createConnection({
         }
       }
     });
-
   };
   
   connection.connect();
@@ -105,5 +98,4 @@ const connection = mysql.createConnection({
   };
 
   connection.end();
-  await browser.close();
 })();
